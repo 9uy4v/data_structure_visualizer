@@ -1,6 +1,5 @@
 import pygame
 import sys
-import math
 
 from node import Node
 from linked_list import LinkedList
