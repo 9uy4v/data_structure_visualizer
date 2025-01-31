@@ -1,5 +1,6 @@
 import pygame
 import sys
+import random
 
 from node import Node
 from linked_list import LinkedList
@@ -52,7 +53,11 @@ array = [150, 30, 60, 200, 120, 90, 250]
 
 # ======================================================================================
 
+def display_text(val : str, pos : tuple[int,int] ,cell_color = BACKGROUND):
+    text = font.render(str(val),True, WHITE,cell_color) # TODO : set font size
+    text_rect = text.get_rect(center= pos)
 
+    screen.blit(text,text_rect)
 
 
 
@@ -79,11 +84,7 @@ def draw_array(array, iterators : list[int] = []):
          
         pygame.draw.rect(screen,cell_color,(x,y,cell_size - margin,cell_size - margin))
         
-        text = font.render(str(value),True, WHITE,cell_color)
-        text_rect = text.get_rect(center= (x + cell_size/2, y + cell_size/2))
-
-        screen.blit(text,text_rect)
-
+        display_text(str(value) , (x + cell_size/2, y + cell_size/2) , cell_color)
 
     pygame.display.flip()
 
@@ -130,9 +131,9 @@ def animate_nodes(nodes_locations : list[list[tuple[int,int]]], nodes_data : lis
 
         # Draw Nodes
         for node in nodes_data:
-            pygame.draw.circle(screen, PRIMARY, node.pos, 35)
-            pygame.draw.circle(screen, BACKGROUND, node.pos, 32)
-            # TODO : add value of node inside of it
+            pygame.draw.circle(screen, PRIMARY, node.pos, LinkedList.node_radius)
+            pygame.draw.circle(screen, BACKGROUND, node.pos, LinkedList.node_radius * 0.9)
+            display_text(str(node.data) , node.pos)
 
         pygame.display.flip()
         
@@ -142,9 +143,9 @@ def animate_nodes(nodes_locations : list[list[tuple[int,int]]], nodes_data : lis
 def draw_linked_list(linked_list : LinkedList):
     head = linked_list.head
     nodes = []
-    length = 0
     animation_vectors = []
     connections = []
+    length = 0
 
     # Converting LinkedList to an array
     while head:
@@ -152,11 +153,20 @@ def draw_linked_list(linked_list : LinkedList):
         head = head.next
         length += 1
 
-    margin = 250
+    # Calculating the radius of the nodes
+    node_radius = width / (length * 2 + 1) / 1.5
+
+    # Setting the calculated node radius as a static variable in the node class
+    LinkedList.node_radius = node_radius  
+
+    # Calculating the margin based on the number and size of the nodes
+    margin = (width - node_radius * 2 * length) / (length + 1)
+    
+
 
     for i,node in enumerate(nodes):
-        x = 50 + i *( 35 + margin / 2)
-        y = (height - 35) /2
+        x = margin + node_radius + i * ( node_radius * 2 + margin)
+        y = height / 2
 
         animation_vector = [node.pos , (x,y)]
         animation_vectors.append(animation_vector)
@@ -169,8 +179,6 @@ def draw_linked_list(linked_list : LinkedList):
         
 linked_list = LinkedList()
 linked_list.append(10)
-linked_list.append(20)
-linked_list.append(30)
 
 # Main loop
 running = True
@@ -183,4 +191,8 @@ while running:
 
 
     draw_linked_list(linked_list)
+    linked_list.append(int(random.random() * 50))
+
+
+
     pygame.time.wait(1000)
