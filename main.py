@@ -1,9 +1,11 @@
 import pygame
 import sys
+import math 
 import random
 
 from node import Node
 from linked_list import LinkedList
+from graph import Graph
 
 def bubble_sort(arr):
   
@@ -46,12 +48,6 @@ clock = pygame.time.Clock()
 
 pygame.display.set_caption("Array Visualization") 
 
-# Array to visualize
-array = [150, 30, 60, 200, 120, 90, 250]
-
-
-
-# ======================================================================================
 
 def display_text(val : str, pos : tuple[int,int] ,cell_color = BACKGROUND):
     text = font.render(str(val),True, WHITE,cell_color) # TODO : set font size
@@ -59,36 +55,39 @@ def display_text(val : str, pos : tuple[int,int] ,cell_color = BACKGROUND):
 
     screen.blit(text,text_rect)
 
-
-
+# ======================================================================================
 
 # Function to draw an array    
 def draw_array(array, iterators : list[int] = []):
     screen.fill(BACKGROUND)
 
+    # Calculating each cell size
     cell_size = width / (len(array)+1) - 10
 
     margin = cell_size * 0.05
 
+    # Drawing the border of the array
     arr_x = (width - cell_size * len(array)) / 2
     arr_y = (height - cell_size) / 2
     pygame.draw.rect(screen,PRIMARY,(arr_x,arr_y,cell_size*len(array), cell_size))
 
     for i, value in enumerate(array):
+        # Calculating the posotion of each cell
         x = arr_x  + i * (cell_size)  + margin/2
         y = (height - cell_size + margin) / 2
+
+        # Coloring cell according to algorithm
         if(iterators.__contains__(i)):
             cell_color = ITERATORS_COLORS[iterators.index(i) % 10]
         else:
             cell_color = BACKGROUND
          
+         # Drawing the cell
         pygame.draw.rect(screen,cell_color,(x,y,cell_size - margin,cell_size - margin))
         
         display_text(str(value) , (x + cell_size/2, y + cell_size/2) , cell_color)
 
     pygame.display.flip()
-
-
 
 
 # ======================================================================================
@@ -98,13 +97,15 @@ def draw_array(array, iterators : list[int] = []):
 def ease_out(t):
     return 1 - (1-t) ** 3 # An exponantial function that fits the curve of Ease Out
 
-def current_location(node_location : list[tuple[int,int]], eased_t):
+def current_location(node_location : tuple[tuple[int,int]], eased_t):
+    # Calculating the current position of the node based on the progress of the animation
     cur_x = node_location[0][0] + (node_location[1][0] - node_location[0][0]) * eased_t
     cur_y = node_location[0][1] + (node_location[1][1] - node_location[0][1]) * eased_t
+    
     return cur_x, cur_y 
     
 
-def animate_nodes(nodes_locations : list[list[tuple[int,int]]], nodes_data : list[Node], connections : list[tuple[Node]]):
+def animate_nodes(nodes_locations : list[tuple[tuple[int,int]]], nodes_data : list[Node], connections : list[tuple[Node,Node]]):
     duration = 500
     start_time = pygame.time.get_ticks()
     t = 0
@@ -131,8 +132,8 @@ def animate_nodes(nodes_locations : list[list[tuple[int,int]]], nodes_data : lis
 
         # Draw Nodes
         for node in nodes_data:
-            pygame.draw.circle(screen, PRIMARY, node.pos, LinkedList.node_radius)
-            pygame.draw.circle(screen, BACKGROUND, node.pos, LinkedList.node_radius * 0.9)
+            pygame.draw.circle(screen, PRIMARY, node.pos, Node.node_radius)
+            pygame.draw.circle(screen, BACKGROUND, node.pos, Node.node_radius * 0.9)
             display_text(str(node.data) , node.pos)
 
         pygame.display.flip()
@@ -157,28 +158,65 @@ def draw_linked_list(linked_list : LinkedList):
     node_radius = width / (length * 2 + 1) / 1.5
 
     # Setting the calculated node radius as a static variable in the node class
-    LinkedList.node_radius = node_radius  
+    Node.node_radius = node_radius  
 
     # Calculating the margin based on the number and size of the nodes
     margin = (width - node_radius * 2 * length) / (length + 1)
     
-
-
     for i,node in enumerate(nodes):
+        # Calculating the position of each node 
         x = margin + node_radius + i * ( node_radius * 2 + margin)
         y = height / 2
 
         animation_vector = [node.pos , (x,y)]
         animation_vectors.append(animation_vector)
 
+        # Connection nodes in order
         if(node.next):
             connections.append((node, node.next))
     
     animate_nodes(animation_vectors, nodes, connections)
 
+# ======================================================================================
+
+def draw_graph(graph : Graph):
+    animation_vectors = []
+    length = len(graph.nodes)
+
+
+    # Calculating the radius of the nodes
+    node_radius = width / (length * 2 + 1) / 1.5
+    Node.node_radius = node_radius
+
+    for i,node in enumerate(graph.nodes):
+        # Calculating node angle based on index
+        angle = (2 * math.pi / length) * i  
+
+        # Calculating node position based on angle
+        x = width / 2 + height / 3 * math.cos(angle)  
+        y = height / 2 + height / 3 * math.sin(angle)  
+
+        animation_vector = [node.pos , (x,y)]
+        animation_vectors.append(animation_vector)
+    
+    animate_nodes(animation_vectors , graph.nodes, graph.connections)
+
+
+# Array to visualize
+array = [150, 30, 60, 200, 120, 90, 250]
         
+# Linked list to visualize
 linked_list = LinkedList()
 linked_list.append(10)
+
+# Graph to visualize
+node_1 = Node(1)
+node_2 = Node(2)
+node_3 = Node(3)
+node_4 = Node(4)
+node_5 = Node(5)
+graph = Graph([node_1,node_2,node_3,node_4,node_5], [(node_1,node_3), (node_2,node_5), (node_2,node_4), (node_3,node_4), (node_1,node_5), (node_2,node_3), (node_4,node_1)])
+
 
 # Main loop
 running = True
@@ -189,10 +227,6 @@ while running:
             sys.exit()
     
 
-
-    draw_linked_list(linked_list)
-    linked_list.append(int(random.random() * 50))
-
-
+    draw_graph(graph)
 
     pygame.time.wait(1000)

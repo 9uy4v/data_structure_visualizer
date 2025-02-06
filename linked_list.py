@@ -14,3 +14,10 @@ class LinkedList:
             current = current.next
         current.next = new_node
 
+    def pop(self):
+        temp = self.head
+        self.head = self.head.next
+
+        temp.next = None
+        return temp
+
