@@ -1,10 +1,9 @@
 import pygame
 import sys
-import math 
-import random
-
 from visualizer.data_structures import *
 import visualizer as vis
+vis.init() # Initializes screen
+
 
 # ====================== Algorithms =====================================
 def bubble_sort(arr):
@@ -16,7 +15,7 @@ def bubble_sort(arr):
         for i in range(n):
 
             vis.draw_array(arr, [i,i+1,n+1])
-            pygame.time.wait(1000)
+            pygame.time.delay(1000)
 
             if arr[i] > arr[i + 1]:
 
@@ -24,7 +23,7 @@ def bubble_sort(arr):
                 swapped = True
 
                 vis.draw_array(arr, [i+1 ,i, n+1])
-                pygame.time.wait(1000)
+                pygame.time.delay(1000)
                     
         if not swapped:
             break
@@ -77,9 +76,6 @@ tree = BinaryTree(
 # =========================== Main ===============================
 
 # Main loop
-vis.init() # Initiating screen 
-print(f"Screen initialized: {vis.screen is not None}")
-
 running = True
 while running:
     for event in pygame.event.get():
@@ -87,6 +83,6 @@ while running:
             pygame.quit()
             sys.exit()
     
-    bubble_sort(array)
+    vis.start_algo(bubble_sort,array)
 
     pygame.time.wait(1000)

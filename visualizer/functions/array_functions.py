@@ -1,36 +1,35 @@
 import pygame
 
-from visualizer.general import *
-
+from visualizer import general as vis
 # Function to draw an array    
 def draw_array(array, iterators : list[int] = []):
-    screen.fill(BACKGROUND)
+    vis.screen.fill(vis.BACKGROUND)
 
     # Calculating each cell size
-    cell_size = width / (len(array)+1) - 10
+    cell_size = vis.width / (len(array)+1) - 10
 
     margin = cell_size * 0.05
 
     # Drawing the border of the array
-    arr_x = (width - cell_size * len(array)) / 2
-    arr_y = (height - cell_size) / 2
-    pygame.draw.rect(screen,PRIMARY,(arr_x,arr_y,cell_size*len(array), cell_size))
+    arr_x = (vis.width - cell_size * len(array)) / 2
+    arr_y = (vis.height - cell_size) / 2
+    pygame.draw.rect(vis.screen,vis.PRIMARY,(arr_x,arr_y,cell_size*len(array), cell_size))
 
     for i, value in enumerate(array):
         # Calculating the posotion of each cell
         x = arr_x  + i * (cell_size)  + margin/2
-        y = (height - cell_size + margin) / 2
+        y = (vis.height - cell_size + margin) / 2
         font_size = cell_size / 2 
 
         # Coloring cell according to algorithm
         if(iterators.__contains__(i)):
-            cell_color = ITERATORS_COLORS[iterators.index(i) % 10]
+            cell_color = vis.ITERATORS_COLORS[iterators.index(i) % 10]
         else:
-            cell_color = BACKGROUND
+            cell_color = vis.BACKGROUND
          
          # Drawing the cell
-        pygame.draw.rect(screen,cell_color,(x,y,cell_size - margin,cell_size - margin))
+        pygame.draw.rect(vis.screen,cell_color,(x,y,cell_size - margin,cell_size - margin))
         
-        display_text(str(value) , (x + cell_size/2, y + cell_size/2) , font_size ,cell_color)
+        vis.display_text(str(value) , (x + cell_size/2, y + cell_size/2) , font_size ,cell_color)
 
     pygame.display.flip()

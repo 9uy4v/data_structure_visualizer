@@ -1,7 +1,7 @@
 import pygame
 
 from visualizer.data_structures import Node
-from visualizer.general import *
+from visualizer import general as vis
 
 def ease_out(t):
     return 1 - (1-t) ** 3 # An exponential function that fits the curve of the Ease Out animation
@@ -31,21 +31,21 @@ def animate_nodes(nodes_locations : list[tuple[tuple[int,int]]], nodes_data : li
 
             nodes_data[i].pos = cur_pos
         
-        font_size = Node.node_radius / 2 
+        font_size = Node.node_radius / 1.5 # TODO Fix font size calculation
 
         # Clearing Screen
-        screen.fill(BACKGROUND)
+        vis.screen.fill(vis.BACKGROUND)
 
         # Draw edges
         for connection in connections:
-            pygame.draw.line(screen, WHITE,connection[0].pos,connection[1].pos, 2)
+            pygame.draw.line(vis.screen, vis.WHITE,connection[0].pos,connection[1].pos, 2)
 
         # Draw Nodes
         for node in nodes_data:
-            pygame.draw.circle(screen, PRIMARY, node.pos, Node.node_radius)
-            pygame.draw.circle(screen, BACKGROUND, node.pos, Node.node_radius * 0.9)
-            display_text(str(node.data) , node.pos, font_size)
+            pygame.draw.circle(vis.screen, vis.PRIMARY, node.pos, Node.node_radius)
+            pygame.draw.circle(vis.screen, vis.BACKGROUND, node.pos, Node.node_radius * 0.9)
+            vis.display_text(str(node.data) , node.pos, font_size)
 
         pygame.display.flip()
         
-        clock.tick(60) # Makes sure this is rendered at 60 fps
+        vis.clock.tick(60) # Makes sure this is rendered at 60 fps
