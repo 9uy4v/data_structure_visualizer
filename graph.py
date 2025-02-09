@@ -5,6 +5,6 @@ class Graph:
         self.nodes = nodes
         self.connections = connections 
 
-    def add_node(self,node : Node , connections : list[tuple[Node,Node]] = []):
+    def add_node(self,node : Node , connected_nodes : list[Node] = []):
         self.nodes.append(node)
-        self.connections.extend(connections)
+        self.connections.extend((node, connected_node) for connected_node in connected_nodes)

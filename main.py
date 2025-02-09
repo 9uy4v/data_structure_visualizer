@@ -7,6 +7,7 @@ from node import Node
 from linked_list import LinkedList
 from graph import Graph
 
+# ====================== Algorithms =====================================
 def bubble_sort(arr):
   
     for n in range(len(arr) - 1, 0, -1):
@@ -28,6 +29,8 @@ def bubble_sort(arr):
                     
         if not swapped:
             break
+
+# ====================== General & init ===================================
 
 # Colors
 WHITE = (255, 255, 255)
@@ -55,7 +58,7 @@ def display_text(val : str, pos : tuple[int,int] ,cell_color = BACKGROUND):
 
     screen.blit(text,text_rect)
 
-# ======================================================================================
+# ====================== Arrays =========================================================
 
 # Function to draw an array    
 def draw_array(array, iterators : list[int] = []):
@@ -89,13 +92,11 @@ def draw_array(array, iterators : list[int] = []):
 
     pygame.display.flip()
 
-
-# ======================================================================================
-# Nodes- linked lists, graphs and binary tree
-
+# ========================== General Node Functions ===============================
+#                      linked lists, graphs and binary tree
 
 def ease_out(t):
-    return 1 - (1-t) ** 3 # An exponantial function that fits the curve of Ease Out
+    return 1 - (1-t) ** 3 # An exponential function that fits the curve of the Ease Out animation
 
 def current_location(node_location : tuple[tuple[int,int]], eased_t):
     # Calculating the current position of the node based on the progress of the animation
@@ -115,7 +116,6 @@ def animate_nodes(nodes_locations : list[tuple[tuple[int,int]]], nodes_data : li
         t = min(elapsed/duration,1)
 
         eased_t = ease_out(t)
-
 
         # Calculate current position for each Node
         for i,node_location in enumerate(nodes_locations): 
@@ -140,7 +140,8 @@ def animate_nodes(nodes_locations : list[tuple[tuple[int,int]]], nodes_data : li
         
         clock.tick(60) # Makes sure this is rendered at 60 fps
 
-                    
+# ======================= Linked Lists ============================================
+      
 def draw_linked_list(linked_list : LinkedList):
     head = linked_list.head
     nodes = []
@@ -177,7 +178,7 @@ def draw_linked_list(linked_list : LinkedList):
     
     animate_nodes(animation_vectors, nodes, connections)
 
-# ======================================================================================
+# ======================= Graphs ====================================================
 
 def draw_graph(graph : Graph):
     animation_vectors = []
@@ -188,6 +189,7 @@ def draw_graph(graph : Graph):
     node_radius = width / (length * 2 + 1) / 1.5
     Node.node_radius = node_radius
 
+    # Nodes in graph will be arranged in a circle
     for i,node in enumerate(graph.nodes):
         # Calculating node angle based on index
         angle = (2 * math.pi / length) * i  
@@ -201,6 +203,7 @@ def draw_graph(graph : Graph):
     
     animate_nodes(animation_vectors , graph.nodes, graph.connections)
 
+# ======================= Variables initialization ============================
 
 # Array to visualize
 array = [150, 30, 60, 200, 120, 90, 250]
@@ -217,6 +220,7 @@ node_4 = Node(4)
 node_5 = Node(5)
 graph = Graph([node_1,node_2,node_3,node_4,node_5], [(node_1,node_3), (node_2,node_5), (node_2,node_4), (node_3,node_4), (node_1,node_5), (node_2,node_3), (node_4,node_1)])
 
+# =========================== Main ===============================
 
 # Main loop
 running = True
@@ -228,5 +232,7 @@ while running:
     
 
     draw_graph(graph)
+
+    graph.add_node(Node(10) ,[graph.nodes[-4], graph.nodes[-2]])
 
     pygame.time.wait(1000)
