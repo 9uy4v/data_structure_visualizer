@@ -1,4 +1,5 @@
-from node import Node
+from visualizer.data_structures.node import Node
+
 class Graph:
 
     def __init__(self, nodes : list[Node] = [], connections : list[tuple[Node,Node]] = []):

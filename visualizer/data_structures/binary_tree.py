@@ -1,4 +1,4 @@
-from node import Node
+from visualizer.data_structures.node import Node
 
 class BinaryTree:
 

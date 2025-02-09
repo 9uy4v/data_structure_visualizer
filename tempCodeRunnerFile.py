@@ -1,1 +1,0 @@
-random.random() * 50
