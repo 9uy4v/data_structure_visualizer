@@ -6,6 +6,7 @@ import random
 from node import Node
 from linked_list import LinkedList
 from graph import Graph
+from binary_tree import BinaryTree
 
 # ====================== Algorithms =====================================
 def bubble_sort(arr):
@@ -52,8 +53,9 @@ clock = pygame.time.Clock()
 pygame.display.set_caption("Array Visualization") 
 
 
-def display_text(val : str, pos : tuple[int,int] ,cell_color = BACKGROUND):
-    text = font.render(str(val),True, WHITE,cell_color) # TODO : set font size
+def display_text(val : str, pos : tuple[int,int] , font_size = 16 ,cell_color = BACKGROUND):
+    font = pygame.font.SysFont(None, int (font_size))
+    text = font.render(str(val),True, WHITE,cell_color) 
     text_rect = text.get_rect(center= pos)
 
     screen.blit(text,text_rect)
@@ -78,6 +80,7 @@ def draw_array(array, iterators : list[int] = []):
         # Calculating the posotion of each cell
         x = arr_x  + i * (cell_size)  + margin/2
         y = (height - cell_size + margin) / 2
+        font_size = cell_size / 2 
 
         # Coloring cell according to algorithm
         if(iterators.__contains__(i)):
@@ -88,7 +91,7 @@ def draw_array(array, iterators : list[int] = []):
          # Drawing the cell
         pygame.draw.rect(screen,cell_color,(x,y,cell_size - margin,cell_size - margin))
         
-        display_text(str(value) , (x + cell_size/2, y + cell_size/2) , cell_color)
+        display_text(str(value) , (x + cell_size/2, y + cell_size/2) , font_size ,cell_color)
 
     pygame.display.flip()
 
@@ -121,8 +124,10 @@ def animate_nodes(nodes_locations : list[tuple[tuple[int,int]]], nodes_data : li
         for i,node_location in enumerate(nodes_locations): 
             cur_pos = current_location(node_location , eased_t)
 
-            nodes_data[i].setPos(cur_pos)
+            nodes_data[i].pos = cur_pos
         
+        font_size = Node.node_radius / 2 
+
         # Clearing Screen
         screen.fill(BACKGROUND)
 
@@ -134,7 +139,7 @@ def animate_nodes(nodes_locations : list[tuple[tuple[int,int]]], nodes_data : li
         for node in nodes_data:
             pygame.draw.circle(screen, PRIMARY, node.pos, Node.node_radius)
             pygame.draw.circle(screen, BACKGROUND, node.pos, Node.node_radius * 0.9)
-            display_text(str(node.data) , node.pos)
+            display_text(str(node.data) , node.pos, font_size)
 
         pygame.display.flip()
         
@@ -203,6 +208,57 @@ def draw_graph(graph : Graph):
     
     animate_nodes(animation_vectors , graph.nodes, graph.connections)
 
+# ======================= Binary Tree =========================================
+
+def map_tree(tree : BinaryTree, nodes : list[Node] , connections : list[tuple[Node,Node]]):
+    cur = tree.head 
+    right_height = left_height = 0
+
+    nodes.append(cur) # Adds the current node to the nodes list
+
+    # Adding the connection between the current node and his children
+    if tree.left != None:
+        connections.append((cur,tree.left.head))
+
+        # Calling the function on the left son
+        left_height = map_tree(tree.left, nodes, connections)
+
+    if tree.right != None:
+        connections.append((cur,tree.right.head))
+
+        # Calling the function on the left son
+        right_height = map_tree(tree.right, nodes, connections)
+
+    return max(right_height, left_height) + 1
+
+def position_tree(tree : BinaryTree, animation_vectors : list[tuple[tuple[int,int]]], start_end : tuple[int,int], cur_height, height_block):
+
+    x_pos = sum(start_end) / 2
+    y_pos =  height - (height_block * cur_height)
+
+    animation_vectors.append((tree.head.pos, (x_pos, y_pos)))
+
+    if tree.left != None:
+        position_tree(tree.left , animation_vectors, (start_end[0], x_pos), cur_height - 1, height_block)
+
+    if tree.right != None:
+        position_tree(tree.right, animation_vectors, (x_pos, start_end[1]), cur_height - 1, height_block)
+
+def draw_binary_tree(tree : BinaryTree):
+    nodes = []
+    connections = []
+    animation_vectors = []
+
+    # Mapping the tree to a node array and a connection array
+    tree_height = map_tree(tree ,nodes, connections)
+
+    height_block = height / (tree_height + 1) # Calculating the spacing  
+    Node.node_radius = min(height_block , width / 2 ** (tree_height -1)) / 2 # TODO : add margin if needed
+
+    position_tree(tree, animation_vectors, (0,width), tree_height, height_block)
+
+    animate_nodes(animation_vectors, nodes, connections)
+
 # ======================= Variables initialization ============================
 
 # Array to visualize
@@ -220,6 +276,35 @@ node_4 = Node(4)
 node_5 = Node(5)
 graph = Graph([node_1,node_2,node_3,node_4,node_5], [(node_1,node_3), (node_2,node_5), (node_2,node_4), (node_3,node_4), (node_1,node_5), (node_2,node_3), (node_4,node_1)])
 
+# Binary tree to visualize
+nodes = [Node(f"Node{i}") for i in range(25)]
+
+tree = BinaryTree(
+    nodes[0],
+    BinaryTree(
+        nodes[1],
+        BinaryTree(
+            nodes[3],
+            BinaryTree(nodes[7], BinaryTree(nodes[15]), BinaryTree(nodes[16])),
+            BinaryTree(nodes[8], BinaryTree(nodes[17]), BinaryTree(nodes[18]))
+        ),
+        BinaryTree(
+            nodes[4],
+            BinaryTree(nodes[9], BinaryTree(nodes[19]), BinaryTree(nodes[20])),
+            BinaryTree(nodes[10], BinaryTree(nodes[21]), BinaryTree(nodes[22]))
+        )
+    ),
+    BinaryTree(
+        nodes[2],
+        BinaryTree(
+            nodes[5],
+            BinaryTree(nodes[11], BinaryTree(nodes[23]), BinaryTree(nodes[24])),
+            BinaryTree(nodes[12])
+        ),
+        BinaryTree(nodes[6], BinaryTree(nodes[13]), BinaryTree(nodes[14]))
+    )
+)
+
 # =========================== Main ===============================
 
 # Main loop
@@ -231,8 +316,6 @@ while running:
             sys.exit()
     
 
-    draw_graph(graph)
-
-    graph.add_node(Node(10) ,[graph.nodes[-4], graph.nodes[-2]])
-
+    draw_binary_tree(tree)
+    
     pygame.time.wait(1000)
