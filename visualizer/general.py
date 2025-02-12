@@ -10,6 +10,7 @@ WHITE = (255, 255, 255)
 BACKGROUND = (40,40,40)
 PRIMARY = (25,185,50)
 BLACK = (0,0,0)
+# TODO : change array to dictionary (maybe- check with array visualzation)
 ITERATORS_COLORS = [(0, 180, 0), (0, 100, 0), (139, 0, 0), (255, 127, 0), (255, 255, 0), (0, 255, 255), (0, 0, 255), (75, 0, 130), (238, 130, 238), (255, 99, 71)]
 
 algo_thread = None # Thread that runs the visualized algorithms
@@ -41,5 +42,5 @@ def start_algo(func,data):
     global algo_thread
 
     if algo_thread is None or not algo_thread.is_alive():
-        algo_thread = threading.Thread(target=func, args=(data,))
+        algo_thread = threading.Thread(target=func, args=data)
         algo_thread.start()

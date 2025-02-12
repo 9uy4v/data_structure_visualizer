@@ -4,7 +4,7 @@ from visualizer.data_structures import Graph,Node
 from visualizer.general import *
 from visualizer.functions.node_functions import animate_nodes
 
-def draw_graph(graph : Graph):
+def draw_graph(graph : Graph, highlight : list = [], sec_highlight : list = [], disabled : list = []):
     animation_vectors = []
     length = len(graph.nodes)
 
@@ -25,4 +25,4 @@ def draw_graph(graph : Graph):
         animation_vector = [node.pos , (x,y)]
         animation_vectors.append(animation_vector)
     
-    animate_nodes(animation_vectors , graph.nodes, graph.connections)
+    animate_nodes(animation_vectors , graph.nodes, graph.connections, highlight, sec_highlight, disabled)

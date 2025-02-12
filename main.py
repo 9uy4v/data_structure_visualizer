@@ -28,13 +28,34 @@ def bubble_sort(arr):
         if not swapped:
             break
 
+def BFS(graph : Graph, start : Node):
+    visited = []
+
+    queue = LinkedList()
+    queue.push(start)
+
+
+    while queue.head:
+        vis.draw_graph(graph, [queue.head], disabled= visited)
+
+        for connection in graph.connections:
+            if queue.head in connection:
+                other = connection[connection.index(queue.head) - 1]
+                vis.draw_graph(graph, [queue.head], [connection, other], visited)
+
+                if(other not in visited):
+                    queue.push(other)
+
+        
+        visited.append(queue.head)
+        queue.pop()                
 
 # Array to visualize
 array = [150, 30, 60, 200, 120, 90, 250]
         
 # Linked list to visualize
 linked_list = LinkedList()
-linked_list.append(10)
+linked_list.push_value(10)
 
 # Graph to visualize
 node_1 = Node(1)
@@ -83,6 +104,6 @@ while running:
             pygame.quit()
             sys.exit()
     
-    vis.start_algo(bubble_sort,array)
+    vis.start_algo(BFS, (graph, graph.nodes[0]))
 
     pygame.time.wait(1000)

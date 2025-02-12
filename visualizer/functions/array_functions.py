@@ -33,3 +33,5 @@ def draw_array(array, iterators : list[int] = []):
         vis.display_text(str(value) , (x + cell_size/2, y + cell_size/2) , font_size ,cell_color)
 
     pygame.display.flip()
+
+    pygame.time.wait(500) # Shows result for half a second

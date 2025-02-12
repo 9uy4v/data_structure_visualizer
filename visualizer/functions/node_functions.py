@@ -14,7 +14,7 @@ def current_location(node_location : tuple[tuple[int,int]], eased_t):
     return cur_x, cur_y 
     
 
-def animate_nodes(nodes_locations : list[tuple[tuple[int,int]]], nodes_data : list[Node], connections : list[tuple[Node,Node]]):
+def animate_nodes(nodes_locations : list[tuple[tuple[int,int]]], nodes_data : list[Node], connections : list[tuple[Node,Node]], highlight : list = [], sec_highlight : list = [], disabled : list = []):
     duration = 500
     start_time = pygame.time.get_ticks()
     t = 0
@@ -38,14 +38,35 @@ def animate_nodes(nodes_locations : list[tuple[tuple[int,int]]], nodes_data : li
 
         # Draw edges
         for connection in connections:
-            pygame.draw.line(vis.screen, vis.WHITE,connection[0].pos,connection[1].pos, 2)
+            color = vis.WHITE
+
+            if connection in highlight:
+                color = vis.ITERATORS_COLORS[0]
+            if connection in sec_highlight:
+                color = vis.ITERATORS_COLORS[1]
+            if connection in disabled:
+                color = vis.ITERATORS_COLORS[2]
+
+            pygame.draw.line(vis.screen, color, connection[0].pos, connection[1].pos, 2)
 
         # Draw Nodes
         for node in nodes_data:
+            color = vis.BACKGROUND
+
+            if node in highlight:
+                color = vis.ITERATORS_COLORS[0]
+            elif node in sec_highlight:
+                color = vis.ITERATORS_COLORS[1]
+            elif node in disabled:
+                color = vis.ITERATORS_COLORS[2]
+
+                
             pygame.draw.circle(vis.screen, vis.PRIMARY, node.pos, Node.node_radius)
-            pygame.draw.circle(vis.screen, vis.BACKGROUND, node.pos, Node.node_radius * 0.9)
-            vis.display_text(str(node.data) , node.pos, font_size)
+            pygame.draw.circle(vis.screen, color, node.pos, Node.node_radius * 0.9)
+            vis.display_text(str(node.data) , node.pos, font_size, color)
 
         pygame.display.flip()
         
         vis.clock.tick(60) # Makes sure this is rendered at 60 fps
+    
+    pygame.time.wait(500) # Shows result for half a second
