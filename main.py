@@ -28,27 +28,26 @@ def bubble_sort(arr):
         if not swapped:
             break
 
-def BFS(graph : Graph, start : Node):
+def BFS(graph: Graph, start: Node):
     visited = []
-
     queue = LinkedList()
     queue.push(start)
-
-
+    
     while queue.head:
-        vis.draw_graph(graph, [queue.head], disabled= visited)
-
-        for connection in graph.connections:
-            if queue.head in connection:
-                other = connection[connection.index(queue.head) - 1]
-                vis.draw_graph(graph, [queue.head], [connection, other], visited)
-
-                if(other not in visited):
-                    queue.push(other)
-
+        current = queue.pop()
         
-        visited.append(queue.head)
-        queue.pop()                
+        if current not in visited:
+            vis.draw_graph(graph, highlight=[current], sec_highlight=[], disabled=visited)
+            
+            for connection in graph.connections:
+                if current in connection:
+                    other = connection[connection.index(current) -1]
+                
+                    if other not in visited:
+                        vis.draw_graph(graph, highlight=[current], sec_highlight=[connection, other], disabled=visited)
+                        queue.push(other)
+
+            visited.append(current)       
 
 # Array to visualize
 array = [150, 30, 60, 200, 120, 90, 250]

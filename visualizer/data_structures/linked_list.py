@@ -19,11 +19,13 @@ class LinkedList:
             self.head = node
             return
         
+        
         current = self.head
         while current.next:
             current = current.next 
 
         current.next = node
+        node.next = None
 
     def pop(self):
         temp = self.head
