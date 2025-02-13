@@ -2,7 +2,6 @@ import pygame
 import sys
 from visualizer.data_structures import *
 import visualizer as vis
-vis.init() # Initializes screen
 
 
 # ====================== Algorithms =====================================
@@ -97,12 +96,14 @@ tree = BinaryTree(
 
 # Main loop
 running = True
+vis.init() # Initializes screen
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
     
-    vis.start_algo(BFS, (graph, graph.nodes[0]))
+    vis.start_algo(vis.draw_binary_tree, (tree,))
 
     pygame.time.wait(1000)
