@@ -102,6 +102,6 @@ while running:
             pygame.quit()
             sys.exit()
     
-    vis.start_algo(bubble_sort, (array,))
+    vis.start_algo(BFS, (graph, graph.nodes[0]))
 
     pygame.time.wait(1000)

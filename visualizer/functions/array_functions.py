@@ -23,11 +23,11 @@ def draw_array(array, highlights : list[int] = [], sec_highlight : list[int] = [
 
         # Coloring cell according to algorithm
         if i in highlights:
-            cell_color = vis.ITERATORS_COLORS[0]
+            cell_color = vis.ITERATORS_COLORS['highlight']
         elif i in sec_highlight:
-            cell_color = vis.ITERATORS_COLORS[1]
+            cell_color = vis.ITERATORS_COLORS['sec_highlight']
         elif i in disabled:
-            cell_color = vis.ITERATORS_COLORS[2]
+            cell_color = vis.ITERATORS_COLORS['disabled']
         else: 
             cell_color = vis.BACKGROUND
          
