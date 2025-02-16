@@ -2,7 +2,7 @@ import pygame
 
 from visualizer import general as vis
 # Function to draw an array    
-def draw_array(array, iterators : list[int] = []):
+def draw_array(array, highlights : list[int] = [], sec_highlight : list[int] = [], disabled : list[int] = []):
     vis.screen.fill(vis.BACKGROUND)
 
     # Calculating each cell size
@@ -22,9 +22,13 @@ def draw_array(array, iterators : list[int] = []):
         font_size = cell_size / 2 
 
         # Coloring cell according to algorithm
-        if(iterators.__contains__(i)):
-            cell_color = vis.ITERATORS_COLORS[iterators.index(i) % 10]
-        else:
+        if i in highlights:
+            cell_color = vis.ITERATORS_COLORS[0]
+        elif i in sec_highlight:
+            cell_color = vis.ITERATORS_COLORS[1]
+        elif i in disabled:
+            cell_color = vis.ITERATORS_COLORS[2]
+        else: 
             cell_color = vis.BACKGROUND
          
          # Drawing the cell

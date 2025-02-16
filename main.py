@@ -14,16 +14,14 @@ def bubble_sort(arr):
 
         for i in range(n):
 
-            vis.draw_array(arr, [i,i+1,n+1])
-            pygame.time.delay(1000)
+            vis.draw_array(arr, [i], [i+1], [z for z in range(n+1,len(arr))])
 
             if arr[i] > arr[i + 1]:
 
                 arr[i], arr[i + 1] = arr[i + 1], arr[i]
                 swapped = True
 
-                vis.draw_array(arr, [i+1 ,i, n+1])
-                pygame.time.delay(1000)
+                vis.draw_array(arr, [i+1], [i], [z for z in range(n+1,len(arr))])
                     
         if not swapped:
             break
@@ -103,6 +101,6 @@ while running:
             pygame.quit()
             sys.exit()
     
-    vis.start_algo(BFS, (graph, graph.nodes[0]))
+    vis.start_algo(bubble_sort, (array,))
 
     pygame.time.wait(1000)
