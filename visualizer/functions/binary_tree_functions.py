@@ -39,6 +39,7 @@ def position_tree(tree : BinaryTree, animation_vectors : list[tuple[tuple[int,in
         position_tree(tree.right, animation_vectors, (x_pos, start_end[1]), cur_height - 1, height_block)
 
 def draw_binary_tree(tree : BinaryTree):
+    vis.handle_events()  # Add event handling
     nodes = []
     connections = []
     animation_vectors = []

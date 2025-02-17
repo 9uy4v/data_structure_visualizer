@@ -1,8 +1,9 @@
 import pygame
 
 from visualizer import general as vis
-# Function to draw an array    
+
 def draw_array(array, highlights : list[int] = [], sec_highlight : list[int] = [], disabled : list[int] = []):
+    vis.handle_events()  # Use centralized event handling
     vis.screen.fill(vis.BACKGROUND)
 
     # Calculating each cell size

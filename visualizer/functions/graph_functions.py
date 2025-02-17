@@ -5,6 +5,7 @@ from visualizer.general import *
 from visualizer.functions.node_functions import animate_nodes
 
 def draw_graph(graph : Graph, highlight : list = [], sec_highlight : list = [], disabled : list = []):
+    handle_events()  # Add event handling
     animation_vectors = []
     length = len(graph.nodes)
 

@@ -24,6 +24,17 @@ def bubble_sort(arr):
                     
         if not swapped:
             break
+    
+    # Display sorted array
+    index_arr = [i for i in range(len(arr))]
+    vis.draw_array(arr, sec_highlight=index_arr)
+    vis.draw_array(arr)
+    vis.draw_array(arr, sec_highlight=index_arr)
+    vis.draw_array(arr)
+    vis.draw_array(arr, sec_highlight=index_arr)
+    vis.draw_array(arr)
+    vis.draw_array(arr, sec_highlight=index_arr)
+    
 
 def BFS(graph: Graph, start: Node):
     visited = []
@@ -111,16 +122,9 @@ tree = BinaryTree(
 
 # =========================== Main ===============================
 
-# Main loop
-running = True
-vis.init() # Initializes screen
+vis.init()
 
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-    
-    vis.start_algo(BFS, (graph, graph.nodes[0]))
 
-    pygame.time.wait(1000)
+bubble_sort(array)
+
+vis.exit()

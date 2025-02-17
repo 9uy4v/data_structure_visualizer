@@ -19,6 +19,8 @@ def animate_nodes(nodes_locations : list[tuple[tuple[int,int]]], nodes_data : li
     start_time = pygame.time.get_ticks()
     t = 0
     while t < 1:
+        vis.handle_events()  # event handling
+        
         # Calculating the progression of the animation
         elapsed = pygame.time.get_ticks() - start_time        
         t = min(elapsed/duration,1)
@@ -74,4 +76,5 @@ def animate_nodes(nodes_locations : list[tuple[tuple[int,int]]], nodes_data : li
         
         vis.clock.tick(60) # Makes sure this is rendered at 60 fps
     
+    vis.handle_events()  # Add event handling after animation
     pygame.time.wait(500) # Shows result for half a second
