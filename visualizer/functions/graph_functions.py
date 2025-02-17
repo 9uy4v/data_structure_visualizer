@@ -25,4 +25,5 @@ def draw_graph(graph : Graph, highlight : list = [], sec_highlight : list = [], 
         animation_vector = [node.pos , (x,y)]
         animation_vectors.append(animation_vector)
     
+    # Drawing the positioned nodes on screen and animating them if their position has changed
     animate_nodes(animation_vectors , graph.nodes, graph.connections, highlight, sec_highlight, disabled)

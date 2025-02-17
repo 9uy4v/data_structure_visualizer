@@ -21,7 +21,7 @@ def draw_array(array, highlights : list[int] = [], sec_highlight : list[int] = [
         y = (vis.height - cell_size + margin) / 2
         font_size = cell_size / 2 
 
-        # Coloring cell according to algorithm
+        # Selecting the background color of the cell by given parameters
         if i in highlights:
             cell_color = vis.ITERATORS_COLORS['highlight']
         elif i in sec_highlight:
@@ -31,9 +31,10 @@ def draw_array(array, highlights : list[int] = [], sec_highlight : list[int] = [
         else: 
             cell_color = vis.BACKGROUND
          
-         # Drawing the cell
+        # Drawing the cell
         pygame.draw.rect(vis.screen,cell_color,(x,y,cell_size - margin,cell_size - margin))
         
+        # Displaying text in cell
         vis.display_text(str(value) , (x + cell_size/2, y + cell_size/2) , font_size ,cell_color)
 
     pygame.display.flip()

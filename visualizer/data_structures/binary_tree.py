@@ -6,3 +6,11 @@ class BinaryTree:
         self.head = head
         self.left = left
         self.right = right
+    
+    # Setting function for left and right child node
+    
+    def set_right(self, right : "BinaryTree" = None):
+        self.right = right
+
+    def set_left(self, left : "BinaryTree" = None):
+        self.left = left

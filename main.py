@@ -46,12 +46,31 @@ def BFS(graph: Graph, start: Node):
 
             visited.append(current)       
 
+def reverse_queue(queue: LinkedList):
+    if queue.head is None:
+        return
+    
+    vis.draw_linked_list(queue, disabled=[queue.head])
+    cur = queue.pop()
+
+    vis.draw_linked_list(queue)
+    reverse_queue(queue)
+
+    queue.push(cur)
+    vis.draw_linked_list(queue, highlights=[cur])
+
 # Array to visualize
 array = [150, 30, 60, 200, 120, 90, 250]
         
 # Linked list to visualize
 linked_list = LinkedList()
 linked_list.push_value(10)
+linked_list.push_value(20)
+linked_list.push_value(30)
+linked_list.push_value(40)
+linked_list.push_value(50)
+linked_list.push_value(60)
+linked_list.push_value(70)
 
 # Graph to visualize
 node_1 = Node(1)

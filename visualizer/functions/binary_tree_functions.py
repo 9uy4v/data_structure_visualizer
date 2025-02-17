@@ -2,6 +2,7 @@ from visualizer.data_structures import BinaryTree,Node
 from visualizer import general as vis
 from visualizer.functions.node_functions import animate_nodes
 
+# Mapping the tree to a node array and a connection array
 def map_tree(tree : BinaryTree, nodes : list[Node] , connections : list[tuple[Node,Node]]):
     cur = tree.head 
     right_height = left_height = 0
@@ -23,6 +24,7 @@ def map_tree(tree : BinaryTree, nodes : list[Node] , connections : list[tuple[No
 
     return max(right_height, left_height) + 1
 
+# Positioning each of the tree's nodes on the screen 
 def position_tree(tree : BinaryTree, animation_vectors : list[tuple[tuple[int,int]]], start_end : tuple[int,int], cur_height, height_block):
 
     x_pos = sum(start_end) / 2
@@ -45,8 +47,10 @@ def draw_binary_tree(tree : BinaryTree):
     tree_height = map_tree(tree ,nodes, connections)
 
     height_block = vis.height / (tree_height + 1) # Calculating the spacing  
-    Node.node_radius = min(height_block , vis.width / 2 ** (tree_height -1)) / 2 # TODO : add margin if needed
+    Node.node_radius = min(height_block , vis.width / 2 ** (tree_height -1)) / 2
 
+    # Positioning all of tree's nodes on screen
     position_tree(tree, animation_vectors, (0,vis.width), tree_height, height_block)
 
+    # Drawing the positioned nodes on screen and animating them if their position has changed
     animate_nodes(animation_vectors, nodes, connections)

@@ -40,6 +40,7 @@ def animate_nodes(nodes_locations : list[tuple[tuple[int,int]]], nodes_data : li
         for connection in connections:
             color = vis.WHITE
 
+            # Selecting the color of the connection by given parameters
             if connection in highlight:
                 color = vis.ITERATORS_COLORS['highlight']
             if connection in sec_highlight:
@@ -47,12 +48,14 @@ def animate_nodes(nodes_locations : list[tuple[tuple[int,int]]], nodes_data : li
             if connection in disabled:
                 color = vis.ITERATORS_COLORS['disabled']
 
+            # Drawing the connection lines between the nodes
             pygame.draw.line(vis.screen, color, connection[0].pos, connection[1].pos, 2)
 
         # Draw Nodes
         for node in nodes_data:
             color = vis.BACKGROUND
 
+            # Selecting the background color of the current node by given parameters
             if node in highlight:
                 color = vis.ITERATORS_COLORS['highlight']
             elif node in sec_highlight:
@@ -60,9 +63,11 @@ def animate_nodes(nodes_locations : list[tuple[tuple[int,int]]], nodes_data : li
             elif node in disabled:
                 color = vis.ITERATORS_COLORS['disabled']
 
-                
+            # Drawing the nodes on screen
             pygame.draw.circle(vis.screen, vis.PRIMARY, node.pos, Node.node_radius)
             pygame.draw.circle(vis.screen, color, node.pos, Node.node_radius * 0.9)
+            
+            # Displaying the nodes' values inside them
             vis.display_text(str(node.data) , node.pos, font_size, color)
 
         pygame.display.flip()
