@@ -2,7 +2,7 @@ import pygame
 
 from visualizer import general as vis
 
-def draw_array(array, highlights : list[int] = [], sec_highlight : list[int] = [], disabled : list[int] = []):
+def draw_array(array, duration : int = 500, highlight : list[int] = [], sec_highlight : list[int] = [], disabled : list[int] = []):
     vis.handle_events()  # Use centralized event handling
     vis.screen.fill(vis.BACKGROUND)
 
@@ -23,7 +23,7 @@ def draw_array(array, highlights : list[int] = [], sec_highlight : list[int] = [
         font_size = cell_size / 2 
 
         # Selecting the background color of the cell by given parameters
-        if i in highlights:
+        if i in highlight:
             cell_color = vis.ITERATORS_COLORS['highlight']
         elif i in sec_highlight:
             cell_color = vis.ITERATORS_COLORS['sec_highlight']
@@ -40,4 +40,4 @@ def draw_array(array, highlights : list[int] = [], sec_highlight : list[int] = [
 
     pygame.display.flip()
 
-    pygame.time.wait(500) # Shows result for half a second
+    pygame.time.wait(duration) # Shows result for half a second

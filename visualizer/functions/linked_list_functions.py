@@ -2,7 +2,7 @@ from visualizer.data_structures import LinkedList, Node
 from visualizer.general import *
 from visualizer.functions.node_functions import animate_nodes
 
-def draw_linked_list(linked_list : LinkedList, highlights : list[Node] = [], sec_highlight : list[Node] = [], disabled : list[Node] = []):
+def draw_linked_list(linked_list : LinkedList, duration : int = 500, highlight : list[Node] = [], sec_highlight : list[Node] = [], disabled : list[Node] = []):
     handle_events()  # Add event handling
     head = linked_list.head
     nodes = []
@@ -38,4 +38,4 @@ def draw_linked_list(linked_list : LinkedList, highlights : list[Node] = [], sec
             connections.append((node, node.next))
     
     # Drawing the positioned nodes on screen and animating them if their position has changed
-    animate_nodes(animation_vectors, nodes, connections, highlights, sec_highlight, disabled)
+    animate_nodes(animation_vectors, nodes, connections,duration ,highlight, sec_highlight, disabled)

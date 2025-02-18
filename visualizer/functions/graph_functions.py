@@ -4,7 +4,7 @@ from visualizer.data_structures import Graph,Node
 from visualizer.general import *
 from visualizer.functions.node_functions import animate_nodes
 
-def draw_graph(graph : Graph, highlight : list = [], sec_highlight : list = [], disabled : list = []):
+def draw_graph(graph : Graph, duration : int = 500, highlight : list = [], sec_highlight : list = [], disabled : list = []):
     handle_events()  # Add event handling
     animation_vectors = []
     length = len(graph.nodes)
@@ -27,4 +27,4 @@ def draw_graph(graph : Graph, highlight : list = [], sec_highlight : list = [], 
         animation_vectors.append(animation_vector)
     
     # Drawing the positioned nodes on screen and animating them if their position has changed
-    animate_nodes(animation_vectors , graph.nodes, graph.connections, highlight, sec_highlight, disabled)
+    animate_nodes(animation_vectors , graph.nodes, graph.connections, duration, highlight, sec_highlight, disabled)

@@ -13,14 +13,14 @@ def bubble_sort(arr):
 
         for i in range(n):
 
-            vis.draw_array(arr, [i], [i+1], [z for z in range(n+1,len(arr))])
+            vis.draw_array(arr, highlight=[i], sec_highlight=[i+1], disabled=[z for z in range(n+1,len(arr))])
 
             if arr[i] > arr[i + 1]:
 
                 arr[i], arr[i + 1] = arr[i + 1], arr[i]
                 swapped = True
 
-                vis.draw_array(arr, [i+1], [i], [z for z in range(n+1,len(arr))])
+                vis.draw_array(arr, highlight=[i+1], sec_highlight=[i], disabled=[z for z in range(n+1,len(arr))])
                     
         if not swapped:
             break
@@ -35,7 +35,6 @@ def bubble_sort(arr):
     vis.draw_array(arr)
     vis.draw_array(arr, sec_highlight=index_arr)
     
-
 def BFS(graph: Graph, start: Node):
     visited = []
     queue = LinkedList()
@@ -68,7 +67,28 @@ def reverse_queue(queue: LinkedList):
     reverse_queue(queue)
 
     queue.push(cur)
-    vis.draw_linked_list(queue, highlights=[cur])
+    vis.draw_linked_list(queue, highlight=[cur])
+
+def mirror_tree(root : BinaryTree):
+    if not root or (not root.left and not root.right):
+        return
+
+    vis.draw_binary_tree(root, highlight=[root.head])
+    vis.draw_binary_tree(root, highlight=[root.right.head or None,], sec_highlight=[root.left.head or None,])
+    
+    tmp = root.left
+    root.left = root.right
+    root.right = tmp
+
+    vis.draw_binary_tree(root, duration= 350, highlight=[root.left.head or None,], sec_highlight=[root.right.head or None,])
+    vis.draw_binary_tree(root, duration= 150, highlight=[root.left.head or None,],)
+
+    mirror_tree(root.left)
+    vis.draw_binary_tree(root, duration=150, highlight=[root.right.head or None])
+    mirror_tree(root.right)
+
+    vis.draw_binary_tree(root, duration= 100)
+
 
 # Array to visualize
 array = [150, 30, 60, 200, 120, 90, 250]
@@ -124,7 +144,9 @@ tree = BinaryTree(
 
 vis.init()
 
-
+mirror_tree(tree)
 bubble_sort(array)
+reverse_queue(linked_list)
+BFS(graph, graph.nodes[0])
 
 vis.exit()

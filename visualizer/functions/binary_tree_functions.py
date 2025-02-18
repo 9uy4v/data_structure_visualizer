@@ -38,7 +38,7 @@ def position_tree(tree : BinaryTree, animation_vectors : list[tuple[tuple[int,in
     if tree.right != None:
         position_tree(tree.right, animation_vectors, (x_pos, start_end[1]), cur_height - 1, height_block)
 
-def draw_binary_tree(tree : BinaryTree):
+def draw_binary_tree(tree : BinaryTree, duration : int = 500, highlight : list[Node] = [], sec_highlight : list[Node] = [], disabled : list[Node] = []):
     vis.handle_events()  # Add event handling
     nodes = []
     connections = []
@@ -54,4 +54,4 @@ def draw_binary_tree(tree : BinaryTree):
     position_tree(tree, animation_vectors, (0,vis.width), tree_height, height_block)
 
     # Drawing the positioned nodes on screen and animating them if their position has changed
-    animate_nodes(animation_vectors, nodes, connections)
+    animate_nodes(animation_vectors, nodes, connections,duration ,highlight, sec_highlight, disabled)

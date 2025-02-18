@@ -14,7 +14,7 @@ def current_location(node_location : tuple[tuple[int,int]], eased_t):
     return cur_x, cur_y 
     
 
-def animate_nodes(nodes_locations : list[tuple[tuple[int,int]]], nodes_data : list[Node], connections : list[tuple[Node,Node]], highlight : list = [], sec_highlight : list = [], disabled : list = []):
+def animate_nodes(nodes_locations : list[tuple[tuple[int,int]]], nodes_data : list[Node], connections : list[tuple[Node,Node]],duration : int, highlight : list, sec_highlight : list, disabled : list):
     duration = 500
     start_time = pygame.time.get_ticks()
     t = 0
@@ -77,4 +77,4 @@ def animate_nodes(nodes_locations : list[tuple[tuple[int,int]]], nodes_data : li
         vis.clock.tick(60) # Makes sure this is rendered at 60 fps
     
     vis.handle_events()  # Add event handling after animation
-    pygame.time.wait(500) # Shows result for half a second
+    pygame.time.wait(duration) # Shows result for half a second
