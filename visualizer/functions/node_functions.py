@@ -3,10 +3,10 @@ import pygame
 from visualizer.data_structures import Node
 from visualizer import general as vis
 
-def ease_out(t):
+def _ease_out(t):
     return 1 - (1-t) ** 3 # An exponential function that fits the curve of the Ease Out animation
 
-def current_location(node_location : tuple[tuple[int,int]], eased_t):
+def _current_location(node_location : tuple[tuple[int,int]], eased_t):
     # Calculating the current position of the node based on the progress of the animation
     cur_x = node_location[0][0] + (node_location[1][0] - node_location[0][0]) * eased_t
     cur_y = node_location[0][1] + (node_location[1][1] - node_location[0][1]) * eased_t
@@ -25,11 +25,11 @@ def animate_nodes(nodes_locations : list[tuple[tuple[int,int]]], nodes_data : li
         elapsed = pygame.time.get_ticks() - start_time        
         t = min(elapsed/duration,1)
 
-        eased_t = ease_out(t)
+        eased_t = _ease_out(t)
 
         # Calculate current position for each Node
         for i,node_location in enumerate(nodes_locations): 
-            cur_pos = current_location(node_location , eased_t)
+            cur_pos = _current_location(node_location , eased_t)
 
             nodes_data[i].pos = cur_pos
         

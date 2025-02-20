@@ -6,7 +6,7 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 width, height = 800, 600
 screen = None
 clock = None
-running = True
+_running = True
 
 # Colors
 WHITE = (255, 255, 255)
@@ -19,9 +19,9 @@ ITERATORS_COLORS = {'highlight' : (0, 180, 0),
                     'disabled' : (139, 0, 0), }
 
 def init():
-    global screen, clock, running
+    global screen, clock, _running
 
-    running = True
+    _running = True
 
     pygame.init()
     screen = pygame.display.set_mode((width, height))
@@ -45,7 +45,7 @@ def display_text(val : str, pos : tuple[int,int] , font_size = 16 ,cell_color = 
     screen.blit(text, text_rect)
 
 def exit():
-    global running
-    running = False
+    global _running
+    _running = False
     pygame.quit()
     sys.exit()

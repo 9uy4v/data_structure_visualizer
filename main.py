@@ -1,5 +1,3 @@
-import pygame
-import sys
 from visualizer.data_structures import *
 import visualizer as vis
 
