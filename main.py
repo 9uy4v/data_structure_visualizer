@@ -87,6 +87,74 @@ def mirror_tree(root : BinaryTree):
 
     vis.draw_binary_tree(root, duration= 100)
 
+def build_linked_list():
+    x = 0
+    queue = LinkedList(); 
+    print('Building a Queue')
+
+    while (x != -1):
+        x = input('enter a number: ')
+        queue.push_value(x)
+        vis.draw_linked_list(queue)
+
+    return queue
+
+def add_leaf(root : BinaryTree, rl):
+    x = 0
+
+    if (rl == '1'):
+        x = input('enter value: ')
+        root.right = BinaryTree(Node(x))
+        x = 0
+    elif (rl == '2'):
+        x = input('enter value: ')
+        root.left = BinaryTree(Node(x))
+        x = 0 
+    else:
+        x = -1 
+    
+    return x
+
+def build_binary_tree(): 
+    x = input('enter tree root: ')
+
+    root = BinaryTree(Node(x))
+
+    while(x != -1):
+
+        vis.draw_binary_tree(root)
+
+        cur = root
+        while(True):
+            if cur.left == None and cur.right == None:
+                rl = input('Do you want to add to the: \n\t1. Right \n\t2. Left\n(-1 to Exit)')
+                x = add_leaf(cur, rl)
+                break
+            elif cur.left == None:
+                ac = input('Do you want to: \n\t1. Move Right \n\t2. Add to Left\n(-1 to Exit)')
+                if (ac == '1'):
+                    cur = cur.right
+                elif (ac == '2'):
+                    x = add_leaf(cur,ac)
+                    break 
+            elif cur.right == None:
+                ac = input('Do you want to: \n\t1. Add to Right \n\t2. Move Left\n(-1 to Exit)')
+                if (ac == '1'):
+                    x = add_leaf(cur,ac)
+                    break
+                elif (ac == '2'):
+                    cur = cur.left
+            elif cur.left != None and cur.right != None:
+                ac = input('Do you want to: \n\t1. Move Right \n\t2. Move Left\n(-1 to Exit)')
+                if (ac == '1'):
+                    cur = cur.right
+                elif (ac == '2'):
+                    cur = cur.left
+                else: 
+                    x = -1
+                    break
+    
+    return root
 
 # Array to visualize
 array = [150, 30, 60, 200, 120, 90, 250]
@@ -141,6 +209,9 @@ tree = BinaryTree(
 # =========================== Main ===============================
 
 vis.init()
+
+# linked_list = build_linked_list()
+# tree = build_binary_tree()
 
 mirror_tree(tree)
 bubble_sort(array)
