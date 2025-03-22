@@ -12,31 +12,24 @@ built as a final project for Ort College python course.
   - **Node** (base data structure for Linked Lists, Binary Trees and Graphs)
 
 ## Dependencies
+  - The visualizer library can only visuzlize native **python lists and included data structures**.
+  - This library depends and is built on the python library **pygame**.
+ 
 > [!NOTE]
-> This library depends and is built on **pygame**
-
-## User Guide
-There are two main parts in the library- Data Structures and Visualizing Algorithms. 
-
-**1. Import the data structures**
-```
+> When visualizing make sure the visualizing library algorithm is run in some kind of loop or recursion.  
+> Alternatively- repeatedly use ```vis.handle_events()``` to avoid unexpected behavior
+   
+## Example
+```python
+# Import library's data structures and visualizing functions
 from visualizer.data_structures import *
-```
-**2. Import the Visualizer Algorithms**
-```
 import visualizer as vis
-```
-**3. Initialize the screen**
-```
-vis.init()
-```
-**4. Visualize**
-```
-...  
-...  
-...  
-```
-**5. Close the Screen**
-```
-vis.exit()
+
+# Initialize display
+vis.init() 
+
+# Visualize algorithm or data structure changes using the library functions...
+
+# Terminate display
+vis.close()
 ```
